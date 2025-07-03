@@ -16,7 +16,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
 const pool = new Pool({
   user: process.env.DB_USER || 'postgres',
-  host: process.env.DB_HOST || 'postgres20',
+  host: process.env.DB_HOST || 'postgres',
   database: process.env.DB_DATABASE || 'login',
   password: process.env.DB_PASSWORD || 'admin321',
   port: parseInt(process.env.DB_PORT) || 5432,
