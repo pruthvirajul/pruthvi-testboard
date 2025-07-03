@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: testboard-postgres
+    ports:
+      - "5127:5432"
+    environment:
+      POSTGRES_DB: login
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin321
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+
+  backend:
+    build: ./Backend
+    container_name: testboard-backend
+    ports:
+      - "3105:3105"
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: admin321
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: login
+      JWT_SECRET: your_jwt_secret_key
+    depends_on:
+      - postgres
+    restart: always
+
+  dashboard:
+    build: ./Dashboard
+    container_name: testboard-dashboard
+    ports:
+      - "8150:80"
+    restart: always
+
+  forgot_password:
+    build: ./Forgot_password
+    container_name: testboard-forgot
+    ports:
+      - "8151:80"
+    restart: always
+
+  login:
+    build: ./Login
+    container_name: testboard-login
+    ports:
+      - "8152:80"
+    restart: always
+
+  sign:
+    build: ./Sign
+    container_name: testboard-sign
+    ports:
+      - "8153:80"
+    restart: always
+
+volumes:
+  postgres_data:
+
